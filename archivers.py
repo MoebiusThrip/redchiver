@@ -364,12 +364,13 @@ class Archiver(object):
         return None
 
     # remember records from the past using pushshift to get older titles
-    def remember(self, beginning, ending=None):
+    def remember(self, beginning, ending=None, comments=True):
         """Remember past records between two dates using pushshift.
 
         Arguments:
             beginning: str in 'YYYY-MM-DD' format
             ending, str in 'YYYY-MM-DD' format
+            comments=True: boolean, include comments from subreddit?
 
         Returns:
             None
@@ -423,12 +424,19 @@ class Archiver(object):
                 # if not yet seen
                 if title not in titles:
 
-                    # get subreddit records
-                    print('searching for title: {}...'.format(title))
-                    posts = [post for post in subreddit.search(query=title) if post.title == title]
+                    # get comments
+                    if comments:
 
-                    # add extracted data to records
-                    records += [self._extract(post) for post in posts]
+                        # get subreddit records
+                        print('searching for title: {}...'.format(title))
+                        posts = [post for post in subreddit.search(query=title) if post.title == title]
+                        records += [self._extract(post) for post in posts]
+
+                    # otherwise get short records
+                    else:
+
+                        # get short records
+                        records += [{'permalink': datum['permalink'], 'comments': [], 'created': datum['created_utc']}]
 
                 # reset for next round
                 finished = False
