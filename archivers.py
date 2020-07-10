@@ -93,6 +93,30 @@ class Archiver(object):
         return date
 
     # extract data from post
+    def _distil(self, post):
+        """Distil particular fields from pushshift post.
+
+        Arguments:
+            post: the reddit posting
+
+        Returns:
+            dict
+        """
+
+        # define main fields with functions and default values
+        fields = {'title': {'function': lambda post: post['title'], 'default': ''}}
+        fields.update({'author': {'function': lambda post: post['author'], 'default': ''}})
+        fields.update({'url': {'function': lambda post: post['url'], 'default': ''}})
+        fields.update({'permalink': {'function': lambda post: post['permalink'], 'default': ''}})
+        fields.update({'created': {'function': lambda post: post['created_utc'], 'default': 0}})
+        fields.update({'comments': {'function': lambda post: [], 'default': []}})
+
+        # begin record
+        record = {field: self._resolve(reference, post) for field, reference in fields.items()}
+
+        return record
+
+    # extract data from post
     def _extract(self, post):
         """Extract particular fields from reddit post.
 
@@ -436,7 +460,7 @@ class Archiver(object):
                     else:
 
                         # get short records
-                        records += [{'permalink': datum['permalink'], 'comments': [], 'created': datum['created_utc']}]
+                        records += [self._distil(datum)]
 
                 # reset for next round
                 finished = False
