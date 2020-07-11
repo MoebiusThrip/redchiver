@@ -37,7 +37,7 @@ For instance, grab the records from January through February of this year:
 
 ```bass.remember('2020-01-01', '2020-02-29')``` 
 
-This is a slow process, as the records must be grabbed only 25 at a time from pushshift, to get the titles, and then must be grabbed individual from the praw api.
+This is a slow process, as the records must be grabbed only 25 at a time from pushshift, to get the titles, and then must be grabbed individual from the praw api.  I've found I need to go one month at a time or it hangups for an as of yet unundertand JsonDecoderError.
 
 #### 3) Archive the websites at archive.is
 

@@ -523,7 +523,7 @@ class Archiver(object):
         if not directory:
 
             # set default
-            directory = self.subreddit + '_content'
+            directory = self.subreddit.lower() + '_content'
 
         # create directory if needed
         if directory not in os.listdir():
