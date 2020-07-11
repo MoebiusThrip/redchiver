@@ -644,18 +644,3 @@ class Archiver(object):
         self.store(deletions, deposit)
 
         return deletions
-
-
-
-
-
-
-
-
-import shutil
-import os
-source = os.listdir("/tmp/")
-destination = "/tmp/newfolder/"
-for files in source:
-    if files.endswith(".txt"):
-        shutil.move(files,destination)
