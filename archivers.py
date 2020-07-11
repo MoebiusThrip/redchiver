@@ -505,7 +505,7 @@ class Archiver(object):
         return data
 
     # stash all images in a file
-    def stash(self, listing='hot', directory='content'):
+    def stash(self, listing='hot', directory=None):
         """Stash content of all possible image urls in an image directory.
 
         Arguments:
@@ -514,6 +514,12 @@ class Archiver(object):
         Returns:
             None
         """
+
+        # make directory name
+        if not directory:
+
+            # set default
+            directory = self.subreddit + '_content'
 
         # create directory if needed
         if directory not in os.listdir():
