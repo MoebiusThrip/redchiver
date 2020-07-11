@@ -613,7 +613,7 @@ class Archiver(object):
             directory = self.subreddit.lower() + '_content'
 
         # get deleted image
-        notice = array(Image.open('probably_deleted.png'))
+        notice = array(Image.open('notice.png'))
 
         # go through each image
         deletions = []
