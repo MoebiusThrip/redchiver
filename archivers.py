@@ -617,6 +617,7 @@ class Archiver(object):
 
         # go through each image
         deletions = []
+        print('images with deletion notice...')
         for name in os.listdir(directory):
 
             # try
@@ -640,7 +641,8 @@ class Archiver(object):
                 pass
 
         # store
+        print('{} images deleted'.format(len(deletions)))
         deposit = self.subreddit.lower() + '_deletions.json'
         self.store(deletions, deposit)
 
-        return deletions
+        return None
