@@ -470,6 +470,9 @@ class Archiver(object):
                 finished = False
                 start = str(int(datum['created_utc']))
 
+            # sleep a bit
+            sleep(2)
+
         # combine with new records and store
         pushshift = self._combine(records, pushshift)
         self.store(pushshift, path)
