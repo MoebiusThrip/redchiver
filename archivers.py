@@ -33,6 +33,11 @@ class Archiver(object):
         # define subreddit
         self.subreddit = subreddit
 
+        # define main url components
+        self.reddit = 'https://www.reddit.com'
+        self.archive = 'http://archive.is/submit/'
+        self.pushshift = 'https://api.pushshift.io/reddit/search/submission/?subreddit='
+
         # initialize authorization
         self.credentials = {}
 
@@ -273,8 +278,8 @@ class Archiver(object):
             print('estimated time: {} minutes'.format(estimate))
 
             # make url
-            base = 'http://archive.is/submit/'
-            url = 'https://www.reddit.com' + link
+            base = self.archive
+            url = self.reddit + link
             print(url)
             result = subprocess.call(['curl', '-d', 'url=' + url, base])
             print('{}'.format(result))
@@ -430,8 +435,7 @@ class Archiver(object):
             print('\nstarting at: {}...'.format(self._unstamp(start)))
 
             # construct pushshift url
-            base = 'https://api.pushshift.io/reddit/search/submission/?subreddit='
-            url = base + self.subreddit + '&after=' + start + '&before=' + ending
+            url = self.pushshift + self.subreddit + '&after=' + start + '&before=' + ending
             print('url: {}'.format(url))
 
             # get data from pushshift
