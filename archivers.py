@@ -13,6 +13,10 @@ import praw
 import requests
 import urllib
 
+# import Image manipulation
+from numpy import array, array_equal
+from PIL import Image, UnidentifiedImageError
+
 
 # define Archiver class for archiving a reddit subreddit
 class Archiver(object):
@@ -590,6 +594,54 @@ class Archiver(object):
             json.dump({'data': records}, pointer)
 
         return None
+
+    # verify that images are not already deleted
+    def verify(self, directory=None):
+        """Verify that stashed images are not already deleted.
+
+        Arguments:
+            None
+
+        Return:
+            list of str
+        """
+
+        # get default directory
+        if not directory:
+
+            # make default directory
+            directory = self.subreddit.lower() + '_content'
+
+        # get deleted image
+        notice = array(Image.open('probably_deleted.png'))
+
+        # go through each image
+        deletions = []
+        for name in os.listdir(directory):
+
+            # try
+            try:
+
+                # get the image
+                path = directory + '/' + name
+                image = array(Image.open(path))
+
+                # check for equality
+                if array_equal(image, notice):
+
+                    # add to deletions
+                    print(name)
+                    deletions.append(name)
+
+            # unless
+            except UnidentifiedImageError:
+
+                # skip
+                pass
+
+        return deletions
+
+
 
 
 
