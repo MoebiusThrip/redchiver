@@ -639,6 +639,10 @@ class Archiver(object):
                 # skip
                 pass
 
+        # store
+        deposit = self.subreddit.lower() + '_deletions.json'
+        self.store(deletions, deposit)
+
         return deletions
 
 
@@ -648,3 +652,10 @@ class Archiver(object):
 
 
 
+import shutil
+import os
+source = os.listdir("/tmp/")
+destination = "/tmp/newfolder/"
+for files in source:
+    if files.endswith(".txt"):
+        shutil.move(files,destination)
